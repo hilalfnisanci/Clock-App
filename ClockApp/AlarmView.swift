@@ -1,0 +1,270 @@
+//
+//  AlarmView.swift
+//  ClockApp
+//
+//  Created by Hilal on 21.12.2023.
+//
+
+import Foundation
+import SwiftUI
+
+class AlarmModel: ObservableObject {
+    @Published var selectedHours: Int = 4
+    @Published var selectedMinutes: Int = 15
+    @Published var selectedTime: String = ""
+    @Published var selectedDays: [String] = []
+    @Published var alarms: [Alarm] = [] // Yeni eklenen satır
+}
+
+struct Alarm: Identifiable {
+    var id = UUID()
+    var hours: Int
+    var minutes: Int
+    var time: String
+    var days: [String]
+    var isActive: Bool
+}
+
+struct AlarmView: View {
+    @StateObject private var alarmModel = AlarmModel()
+    @State private var isAddAlarmViewShown = false
+    
+    var body: some View {
+        VStack {
+            if isAddAlarmViewShown {
+                AddAlarmView(alarmModel: alarmModel, goBackAction: { isAddAlarmViewShown = false })
+            } else {
+                AlarmMainView(alarmModel: alarmModel, startAction: { isAddAlarmViewShown = true })
+            }
+        }
+    }
+}
+
+struct AlarmMainView: View {
+    @ObservedObject var alarmModel: AlarmModel
+    var startAction: () -> Void
+    
+    var body: some View {
+        VStack {
+            Text("ALARM")
+                .font(.system(size: 25, weight: .regular, design: .default))
+            
+            Spacer().frame(height: 90)
+            
+            if alarmModel.alarms.isEmpty {
+                Text("No alarms added yet.")
+                    .foregroundColor(.gray)
+                    .padding()
+            } else {
+                ForEach(alarmModel.alarms.indices, id: \.self) { index in
+                    let alarm = alarmModel.alarms[index]
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        HStack {
+                            VStack(alignment: .leading, spacing: 8) {
+                                Text("\(alarm.hours):\(alarm.minutes) ")
+                                    .font(.system(size: 30, weight: .medium)) +
+                                Text("\(alarm.time)")
+                                    .font(.system(size: 20, weight: .regular))
+                            }
+                            
+                            Spacer()
+                            
+                            Toggle("", isOn: $alarmModel.alarms[index].isActive)
+                                .labelsHidden()
+                                .padding(.trailing)
+                                .toggleStyle(SwitchToggleStyle(tint: .black))
+                                .shadow(color: .black, radius: 4, x: 0, y: 2)
+                        }
+                        
+                        HStack {
+                            ForEach(alarm.days, id: \.self) { day in
+                                Text(day)
+                                    .padding(.trailing, 8)
+                                    .font(.system(size: 15, weight: .medium))
+                            }
+                        }
+                        .padding(.leading)
+                    }
+                    .padding(.vertical, 8)
+                    .background(alarm.isActive ? Color.white : Color.gray.opacity(0.0))
+                }
+            }
+            
+            Spacer().frame(height: 90)
+            
+            Button(action: {
+                startAction()
+            }) {
+                ZStack{
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: 100, height: 100)
+                        .background(RoundedRectangle(cornerRadius: 80)
+                            .stroke(Color.orange, lineWidth: 2)
+                            .background(Color.white))
+                        .cornerRadius(100)
+                            
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: 90, height: 90)
+                        .background(RoundedRectangle(cornerRadius: 80)
+                            .stroke(Color.black, lineWidth: 2)
+                            .background(Color.white))
+                        .cornerRadius(100)
+            
+                    Text("ADD")
+                        .font(Font.custom("Inter", size: 20))
+                        .foregroundColor(.black)
+                }
+            }
+            .shadow(color: Color.orange.opacity(0.2), radius: 10, x: 0, y: 0)
+        }
+    }
+}
+
+struct AddAlarmView: View {
+    @ObservedObject var alarmModel: AlarmModel
+    var goBackAction: () -> Void
+    
+    @State private var showAlert = false
+    
+    var body: some View {
+        VStack {
+            Text("ALARM")
+                .font(.system(size: 25, weight: .regular, design: .default))
+                .padding(.bottom, 60)
+            
+            HStack {
+                VStack {
+                    Picker("Selected Hours", selection: $alarmModel.selectedHours) {
+                        ForEach(1...12, id: \.self) { selectedHours in
+                            Text("\(selectedHours)")
+                        }
+                    }
+                    .pickerStyle(.wheel)
+                    .frame(maxWidth: 50, maxHeight: 180)
+                }
+                
+                Divider().background(Color.black).frame(height: 180)
+
+                VStack {
+                    Picker("Selected Minutes", selection: $alarmModel.selectedMinutes) {
+                        ForEach(1...59, id: \.self) { selectedMinutes in
+                            Text("\(selectedMinutes)")
+                        }
+                    }
+                    .pickerStyle(.wheel)
+                    .frame(maxWidth: 50, maxHeight: 190)
+                }
+            }
+            .padding(.bottom, 20)
+            
+            HStack {
+                Button(action: {
+                    alarmModel.selectedTime = "AM"
+                }) {
+                    Text("AM")
+                        .font(alarmModel.selectedTime == "AM" ? .system(size: 16, weight: .bold) : .system(size: 16, weight: .regular))
+                        .foregroundColor(alarmModel.selectedTime == "AM" ? .orange : .black)
+                    }
+                    .frame(maxWidth: 60)
+                    .background(alarmModel.selectedTime == "AM" ? Color.white : Color.clear)
+                    
+                Button(action: {
+                    alarmModel.selectedTime = "PM"
+                }) {
+                    Text("PM")
+                        .font(alarmModel.selectedTime == "PM" ? .system(size: 16, weight: .bold) : .system(size: 16, weight: .regular))
+                        .foregroundColor(alarmModel.selectedTime == "PM" ? .orange : .black)
+                    }
+                    .frame(maxWidth: 60)
+                    .background(alarmModel.selectedTime == "PM" ? Color.white : Color.clear)
+            }
+            .padding(.bottom, 20)
+                
+            HStack {
+                ForEach(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], id: \.self) { day in
+                    Button(action: {
+                        if alarmModel.selectedDays.contains(day) {
+                            alarmModel.selectedDays.removeAll(where: { $0 == day })
+                        } else {
+                            alarmModel.selectedDays.append(day)
+                        }
+                    })
+                    {
+                        Text(day)
+                        .font(alarmModel.selectedDays.contains(day) ? .system(size: 16, weight: .bold) : .system(size: 16, weight: .regular))
+                        .foregroundColor(alarmModel.selectedDays.contains(day) ? .orange : .black)
+                    }
+                    .frame(maxWidth: 35)
+                    .id(UUID())
+                }
+            }
+            .padding(.bottom, 30)
+            
+            Button(action: {
+                saveAlarm()
+            }) {
+                ZStack{
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: 140, height: 60)
+                        .background(RoundedRectangle(cornerRadius: 80)
+                            .stroke(Color.orange, lineWidth: 2)
+                            .background(Color.white))
+                        .cornerRadius(80)
+                            
+                    Rectangle()
+                        .foregroundColor(.clear)
+                        .frame(width: 130, height: 50)
+                        .background(RoundedRectangle(cornerRadius: 80)
+                            .stroke(Color.black, lineWidth: 2)
+                            .background(Color.white))
+                        .cornerRadius(80)
+            
+                    Text("SAVE")
+                        .font(Font.custom("Inter", size: 20))
+                        .foregroundColor(.black)
+                }
+            }
+            .shadow(color: Color.orange.opacity(0.2), radius: 10, x: 0, y: 0)
+        }
+        .alert(isPresented: $showAlert) {
+            Alert(title: Text("Error"), message: Text("Attention! To set an alarm, you must select both the hour, minute, day/days and time zone. Additionally, if you intend to add the same alarm again, please choose a different time."), dismissButton: .default(Text("Okey")))
+        }
+    }
+    
+    func saveAlarm() {
+        let newAlarm = Alarm(hours: alarmModel.selectedHours,
+            minutes: alarmModel.selectedMinutes,
+            time: alarmModel.selectedTime,
+            days: alarmModel.selectedDays,
+            isActive: true)
+
+        if !alarmModel.alarms.contains(where: { existingAlarm in
+            return existingAlarm.hours == newAlarm.hours &&
+                existingAlarm.minutes == newAlarm.minutes &&
+                existingAlarm.time == newAlarm.time &&
+                existingAlarm.days == newAlarm.days
+        }) {
+            if alarmModel.selectedTime.isEmpty && alarmModel.selectedDays.isEmpty {
+                showAlert = true
+            } else {
+                alarmModel.alarms.append(newAlarm)
+                alarmModel.selectedHours = 4
+                alarmModel.selectedMinutes = 15
+                alarmModel.selectedTime = ""
+                alarmModel.selectedDays = []
+                goBackAction()
+            }
+            
+        } else {
+            showAlert = true
+        }
+    }
+}
+
+#Preview {
+    ContentView()
+}
