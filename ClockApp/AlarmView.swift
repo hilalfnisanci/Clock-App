@@ -8,14 +8,6 @@
 import Foundation
 import SwiftUI
 
-class AlarmModel: ObservableObject {
-    @Published var selectedHours: Int = 4
-    @Published var selectedMinutes: Int = 15
-    @Published var selectedTime: String = ""
-    @Published var selectedDays: [String] = []
-    @Published var alarms: [Alarm] = [] // Yeni eklenen satır
-}
-
 struct Alarm: Identifiable {
     var id = UUID()
     var hours: Int
@@ -24,6 +16,15 @@ struct Alarm: Identifiable {
     var days: [String]
     var isActive: Bool
 }
+
+class AlarmModel: ObservableObject {
+    @Published var selectedHours: Int = 4
+    @Published var selectedMinutes: Int = 15
+    @Published var selectedTime: String = ""
+    @Published var selectedDays: [String] = []
+    @Published var alarms: [Alarm] = []
+}
+
 
 struct AlarmView: View {
     @StateObject private var alarmModel = AlarmModel()
@@ -56,39 +57,38 @@ struct AlarmMainView: View {
                     .foregroundColor(.gray)
                     .padding()
             } else {
-                ForEach(alarmModel.alarms.indices, id: \.self) { index in
-                    let alarm = alarmModel.alarms[index]
-                    
-                    VStack(alignment: .leading, spacing: 8) {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(alarmModel.alarms.indices, id: \.self) { index in
+                        let alarm = alarmModel.alarms[index]
+                            
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
                                 Text("\(alarm.hours):\(alarm.minutes) ")
                                     .font(.system(size: 30, weight: .medium)) +
                                 Text("\(alarm.time)")
                                     .font(.system(size: 20, weight: .regular))
+                                        
+                                Spacer()
+                                    
+                                Toggle("", isOn: $alarmModel.alarms[index].isActive)
+                                    .labelsHidden()
+                                    .padding(.trailing)
+                                    .toggleStyle(SwitchToggleStyle(tint: .black))
+                                    .shadow(color: .black, radius: 4, x: 0, y: 2)
                             }
-                            
-                            Spacer()
-                            
-                            Toggle("", isOn: $alarmModel.alarms[index].isActive)
-                                .labelsHidden()
-                                .padding(.trailing)
-                                .toggleStyle(SwitchToggleStyle(tint: .black))
-                                .shadow(color: .black, radius: 4, x: 0, y: 2)
-                        }
-                        
-                        HStack {
-                            ForEach(alarm.days, id: \.self) { day in
-                                Text(day)
-                                    .padding(.trailing, 8)
-                                    .font(.system(size: 15, weight: .medium))
+                                
+                            HStack {
+                                ForEach(alarm.days, id: \.self) { day in
+                                    Text(day)
+                                        .font(.system(size: 15, weight: .medium))
+                                }
                             }
+                            .padding(.leading)
                         }
-                        .padding(.leading)
+                        .padding(.vertical, 8)
                     }
-                    .padding(.vertical, 8)
-                    .background(alarm.isActive ? Color.white : Color.gray.opacity(0.0))
                 }
+                .padding(.horizontal, 20)
             }
             
             Spacer().frame(height: 90)

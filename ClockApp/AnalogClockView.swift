@@ -10,8 +10,8 @@ import SwiftUI
 
 struct AnalogClockView: View {
     @State private var currentTime = Date()
-    @State private var hourHand = ClockHand(id: 0, angle: 0)
-    @State private var minuteHand = ClockHand(id: 1, angle: 0)
+    @State private var hourHandAngle: Double = 0
+    @State private var minuteHandAngle: Double = 0
     var width = UIScreen.main.bounds.width
     
     var body: some View {
@@ -73,37 +73,44 @@ struct AnalogClockView: View {
                 Circle()
                     .frame(width: 10, height: 10)
                     .foregroundColor(.white)
-                    .offset(x: -2.5, y: -80)
-
-                drawClockHand(hand: hourHand, length: 40, xOffset: 7.5, yOffset: -80, geometry: geometry)
-                drawClockHand(hand: minuteHand, length: 60, xOffset: 5, yOffset: -100, geometry: geometry)
+                    .position(x: geometry.size.width / 2, y: geometry.size.height / 2 - 80)
                 
+                let hourHandLength: CGFloat = 20
+                let minuteHandLength: CGFloat = 30
+                let handCenterX = geometry.size.width / 2
+                let handCenterY = geometry.size.height / 2 - 80
+
+                Rectangle()
+                    .frame(width: 2, height: 40, alignment: .bottom)
+                    .foregroundColor(.white)
+                    .rotationEffect(.degrees(hourHandAngle))
+                    .position(x: handCenterX + CGFloat(sin(hourHandAngle * .pi / 180) * Double(hourHandLength)), y: handCenterY - CGFloat(cos(hourHandAngle * .pi / 180) * Double(hourHandLength)))
+
+                Rectangle()
+                    .frame(width: 2, height: 60, alignment: .bottom)
+                    .foregroundColor(.white)
+                    .rotationEffect(.degrees(minuteHandAngle))
+                    .position(x: handCenterX + CGFloat(sin(minuteHandAngle * .pi / 180) * Double(minuteHandLength)), y: handCenterY - CGFloat(cos(minuteHandAngle * .pi / 180) * Double(minuteHandLength)))
             }
         }
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+            updateClockHandsPositions()
+        }
         .onAppear {
-            Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
-                currentTime = Date()
-                updateClockHandsPositions()
-            }
+            updateClockHandsPositions()
         }
     }
 
     private func updateClockHandsPositions() {
-        let hour = Calendar.current.component(.hour, from: currentTime)
-        hourHand.angle = Double(hour % 12) * 30 - 90
-
-        let minute = Calendar.current.component(.minute, from: currentTime)
-        hourHand.angle += Double(minute) / 60 * 30
-
-        minuteHand.angle = Double(minute) * 6 - 90
-    }
-
-    private func drawClockHand(hand: ClockHand, length: CGFloat, xOffset: CGFloat, yOffset: CGFloat, geometry: GeometryProxy) -> some View {
-        Rectangle()
-            .frame(width: 2, height: length, alignment: .bottom)
-            .foregroundColor(.white)
-            .rotationEffect(.degrees(hand.angle - 90))
-            .position(x: geometry.size.width / 2+xOffset, y: geometry.size.height / 2+yOffset)
+        currentTime = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: currentTime)
+        let minute = calendar.component(.minute, from: currentTime)
+        
+        withAnimation(.easeInOut(duration: 0.5)) {
+            hourHandAngle = Double(hour % 12) * 30 + Double(minute) / 60 * 30
+            minuteHandAngle = Double(minute) * 6
+        }
     }
 }
 
@@ -146,11 +153,6 @@ struct CityRow: View {
         }
         .padding(.horizontal)
     }
-}
-
-struct ClockHand: Identifiable {
-    var id: Int
-    var angle: Double
 }
 
 #Preview {

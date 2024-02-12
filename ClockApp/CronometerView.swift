@@ -19,14 +19,16 @@ struct CronometerView: View {
                 Text("CRONOMETER")
                     .font(.system(size: 25, weight: .regular, design: .default))
 
-                Spacer().frame(height: 270)
+                Spacer().frame(height: 90)
                 
                 Text("\(timeString(time: timerElapsed))")
                     .font(.system(size: 70))
                     .fontWeight(.light)
                     .padding()
                     .foregroundColor(.black)
-                    .offset(y: -200)
+                
+                Spacer().frame(height: 90)
+                
                 HStack {
                     Button(action: resetCronometer) {
                         ZStack{
@@ -110,7 +112,7 @@ struct CronometerView: View {
                     }
                 }
                 .padding(EdgeInsets(top: 0, leading: 30, bottom: 0, trailing: 30))
-                .offset(y:-70)
+                
             }
             .onReceive(timer) { _ in
                 if self.isRunning {

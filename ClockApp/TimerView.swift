@@ -81,7 +81,9 @@ struct TimerMainView: View {
                     .frame( maxHeight: 135)
                 }
             }
+            
             Spacer().frame(height: 90)
+            
             Button(action: {
                 timerOn = true
                 startAction()

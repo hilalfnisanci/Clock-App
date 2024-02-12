@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var selectedTab = 1
+    @State private var selectedTab = 0
     @State private var screenSize: CGRect = UIScreen.main.bounds
     
     var body: some View {
