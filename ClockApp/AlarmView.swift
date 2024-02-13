@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AVFoundation
 
 struct Alarm: Identifiable {
     var id = UUID()
@@ -23,8 +24,79 @@ class AlarmModel: ObservableObject {
     @Published var selectedTime: String = ""
     @Published var selectedDays: [String] = []
     @Published var alarms: [Alarm] = []
+    @State private var showAlert = false
+    
+    var player: AVAudioPlayer?
+    var timer: Timer?
+    
+    func playAlarmSound() {
+        guard let url = Bundle.main.url(forResource: "apple_alarm_clock", withExtension: "mp3") else {
+            print("Sound file not found")
+            return
+        }
+            
+        do {
+            player = try AVAudioPlayer(contentsOf: url)
+            guard let player = player else { return }
+            player.numberOfLoops = 0
+            player.play()
+            
+            _ = 5.0
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func stopAlarmSound() {
+        player?.stop()
+    }
+    
+    func startAlarmTimer() {
+        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+            self.checkAlarms()
+        }
+    }
+    
+    func stopAlarmTimer() {
+        timer?.invalidate()
+        timer = nil
+    }
+    
+    func checkAlarms() {
+        let now = Calendar.current.dateComponents([.hour, .minute, .weekday], from: Date())
+        var currentHour = now.hour ?? 0
+        let currentMinute = now.minute ?? 0
+        let currentWeekday = now.weekday ?? 1
+        
+        for alarm in alarms {
+            if alarm.time == "AM" && currentHour < 12 {
+                currentHour += 12
+            } else if alarm.time == "PM" && currentHour >= 12 {
+                currentHour -= 12
+            }
+                        
+            if alarm.isActive && alarm.hours == currentHour && alarm.minutes == currentMinute && alarm.days.contains(dayString(from: currentWeekday)) {
+                
+                print("Alarm found! \(alarm.hours):\(alarm.minutes)")
+                playAlarmSound()
+            }
+        }
+    }
+    
+    private func dayString(from weekday: Int) -> String {
+        switch weekday {
+            case 1: return "Sun"
+            case 2: return "Mon"
+            case 3: return "Tue"
+            case 4: return "Wed"
+            case 5: return "Thu"
+            case 6: return "Fri"
+            case 7: return "Sat"
+            default: return ""
+        }
+    }
 }
-
 
 struct AlarmView: View {
     @StateObject private var alarmModel = AlarmModel()
@@ -38,11 +110,15 @@ struct AlarmView: View {
                 AlarmMainView(alarmModel: alarmModel, startAction: { isAddAlarmViewShown = true })
             }
         }
+        .onAppear {
+            alarmModel.startAlarmTimer()
+        }
     }
 }
 
 struct AlarmMainView: View {
     @ObservedObject var alarmModel: AlarmModel
+    
     var startAction: () -> Void
     
     var body: some View {
@@ -60,7 +136,6 @@ struct AlarmMainView: View {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(alarmModel.alarms.indices, id: \.self) { index in
                         let alarm = alarmModel.alarms[index]
-                            
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
                                 Text("\(alarm.hours):\(alarm.minutes) ")
@@ -241,13 +316,17 @@ struct AddAlarmView: View {
             time: alarmModel.selectedTime,
             days: alarmModel.selectedDays,
             isActive: true)
-
-        if !alarmModel.alarms.contains(where: { existingAlarm in
+        
+        if !alarmModel.alarms.contains(where: {
+            existingAlarm in
             return existingAlarm.hours == newAlarm.hours &&
                 existingAlarm.minutes == newAlarm.minutes &&
                 existingAlarm.time == newAlarm.time &&
                 existingAlarm.days == newAlarm.days
         }) {
+            print("Alarm added successfully!")
+            print("New Alarm: \(newAlarm.hours):\(newAlarm.minutes) - \(newAlarm.time), Days: \(newAlarm.days)")
+
             if alarmModel.selectedTime.isEmpty && alarmModel.selectedDays.isEmpty {
                 showAlert = true
             } else {

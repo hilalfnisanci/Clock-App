@@ -12,6 +12,7 @@
 		9A152F432B3458E7004481F3 /* CronometerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F422B3458E7004481F3 /* CronometerView.swift */; };
 		9A152F452B345938004481F3 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F442B345938004481F3 /* TimerView.swift */; };
 		9A152F472B347307004481F3 /* CronometerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F462B347307004481F3 /* CronometerViewModel.swift */; };
+		9A4DCEDA2B7C11090007A1DB /* apple_alarm_clock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 9A4DCED92B7C11090007A1DB /* apple_alarm_clock.mp3 */; };
 		9A9EF1642B31B3DC007E5283 /* ClockAppApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EF1632B31B3DC007E5283 /* ClockAppApp.swift */; };
 		9A9EF1662B31B3DC007E5283 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9EF1652B31B3DC007E5283 /* ContentView.swift */; };
 		9A9EF1682B31B3DD007E5283 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9A9EF1672B31B3DD007E5283 /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 		9A152F422B3458E7004481F3 /* CronometerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronometerView.swift; sourceTree = "<group>"; };
 		9A152F442B345938004481F3 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		9A152F462B347307004481F3 /* CronometerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronometerViewModel.swift; sourceTree = "<group>"; };
+		9A4DCED92B7C11090007A1DB /* apple_alarm_clock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = apple_alarm_clock.mp3; sourceTree = "<group>"; };
 		9A9EF1602B31B3DC007E5283 /* ClockApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClockApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9A9EF1632B31B3DC007E5283 /* ClockAppApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockAppApp.swift; sourceTree = "<group>"; };
 		9A9EF1652B31B3DC007E5283 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		9A9EF1622B31B3DC007E5283 /* ClockApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A4DCED92B7C11090007A1DB /* apple_alarm_clock.mp3 */,
 				9A9EF1632B31B3DC007E5283 /* ClockAppApp.swift */,
 				9A9EF1652B31B3DC007E5283 /* ContentView.swift */,
 				9A152F442B345938004481F3 /* TimerView.swift */,
@@ -142,6 +145,7 @@
 			files = (
 				9A9EF16B2B31B3DD007E5283 /* Preview Assets.xcassets in Resources */,
 				9A9EF1682B31B3DD007E5283 /* Assets.xcassets in Resources */,
+				9A4DCEDA2B7C11090007A1DB /* apple_alarm_clock.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
