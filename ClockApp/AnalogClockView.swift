@@ -93,7 +93,7 @@ struct AnalogClockView: View {
                     .position(x: handCenterX + CGFloat(sin(minuteHandAngle * .pi / 180) * Double(minuteHandLength)), y: handCenterY - CGFloat(cos(minuteHandAngle * .pi / 180) * Double(minuteHandLength)))
             }
         }
-        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+        .onReceive(Timer.publish(every: 0.25, on: .main, in: .common).autoconnect()) { _ in
             updateClockHandsPositions()
         }
         .onAppear {

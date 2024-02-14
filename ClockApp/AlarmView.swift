@@ -53,7 +53,7 @@ class AlarmModel: ObservableObject {
     }
     
     func startAlarmTimer() {
-        timer = Timer.scheduledTimer(withTimeInterval: 60, repeats: true) { _ in
+        timer = Timer.scheduledTimer(withTimeInterval: 45, repeats: true) { _ in
             self.checkAlarms()
         }
     }
