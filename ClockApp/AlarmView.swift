@@ -30,7 +30,7 @@ class AlarmModel: ObservableObject {
     var timer: Timer?
     
     func playAlarmSound() {
-        guard let url = Bundle.main.url(forResource: "apple_alarm_clock", withExtension: "mp3") else {
+        guard let url = Bundle.main.url(forResource: "wake_up", withExtension: "mp3") else {
             print("Sound file not found")
             return
         }
