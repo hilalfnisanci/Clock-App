@@ -8,7 +8,9 @@
 import Foundation
 import SwiftUI
 import AVFoundation
+import CoreData
 
+/*
 struct Alarm: Identifiable {
     var id = UUID()
     var hours: Int
@@ -17,6 +19,16 @@ struct Alarm: Identifiable {
     var days: [String]
     var isActive: Bool
 }
+ */
+
+class Alarm: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var hours: Int16
+    @NSManaged var minutes: Int16
+    @NSManaged var time: String
+    @NSManaged var days: [String]
+    @NSManaged var isActive: Bool
+}
 
 class AlarmModel: ObservableObject {
     @Published var selectedHours: Int = 4
@@ -24,10 +36,19 @@ class AlarmModel: ObservableObject {
     @Published var selectedTime: String = ""
     @Published var selectedDays: [String] = []
     @Published var alarms: [Alarm] = []
-    @State private var showAlert = false
+    @Published var showAlert = false
     
     var player: AVAudioPlayer?
     var timer: Timer?
+    
+    func fetchAlarms() {
+        alarms = CoreDataStack.shared.fetchAlarms()
+    }
+
+    func saveAlarm(hours: Int16, minutes: Int16, time: String, days: [String], isActive: Bool) {
+        let newAlarm = CoreDataStack.shared.createAlarm(hours: hours, minutes: minutes, time: time, days: days, isActive: isActive)
+        alarms.append(newAlarm)
+    }
     
     func playAlarmSound() {
         guard let url = Bundle.main.url(forResource: "wake_up", withExtension: "mp3") else {
@@ -309,7 +330,7 @@ struct AddAlarmView: View {
             Alert(title: Text("Error"), message: Text("Attention! To set an alarm, you must select both the hour, minute, day/days and time zone. Additionally, if you intend to add the same alarm again, please choose a different time."), dismissButton: .default(Text("Okey")))
         }
     }
-    
+    /*
     func saveAlarm() {
         let newAlarm = Alarm(hours: alarmModel.selectedHours,
             minutes: alarmModel.selectedMinutes,
@@ -342,6 +363,40 @@ struct AddAlarmView: View {
             showAlert = true
         }
     }
+     
+    */
+    
+    func saveAlarm() {
+        guard !alarmModel.selectedTime.isEmpty && !alarmModel.selectedDays.isEmpty else {
+            showAlert = true
+            return
+        }
+
+        let newAlarm = CoreDataStack.shared.createAlarm(hours: Int16(alarmModel.selectedHours),
+                                                        minutes: Int16(alarmModel.selectedMinutes),
+                                                        time: alarmModel.selectedTime,
+                                                        days: alarmModel.selectedDays,
+                                                        isActive: true)
+
+        if !alarmModel.alarms.contains(where: { existingAlarm in
+            return existingAlarm.hours == Int(newAlarm.hours) &&
+                existingAlarm.minutes == Int(newAlarm.minutes) &&
+                existingAlarm.time == newAlarm.time &&
+                existingAlarm.days == newAlarm.days
+        }) {
+            print("Alarm added successfully!")
+            print("New Alarm: \(newAlarm.hours):\(newAlarm.minutes) - \(newAlarm.time), Days: \(newAlarm.days)")
+            alarmModel.alarms.append(newAlarm)
+            alarmModel.selectedHours = 4
+            alarmModel.selectedMinutes = 15
+            alarmModel.selectedTime = ""
+            alarmModel.selectedDays = []
+            goBackAction()
+        } else {
+            showAlert = true
+        }
+    }
+
 }
 
 #Preview {

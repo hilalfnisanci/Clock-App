@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9A017CC62B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A017CC42B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld */; };
+		9A017CC82B8F5330004443A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A017CC72B8F5330004443A0 /* AppDelegate.swift */; };
+		9A017CCA2B8F53FD004443A0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A017CC92B8F53FD004443A0 /* CoreDataStack.swift */; };
 		9A152F3F2B345879004481F3 /* AnalogClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F3E2B345879004481F3 /* AnalogClockView.swift */; };
 		9A152F412B3458B7004481F3 /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F402B3458B7004481F3 /* AlarmView.swift */; };
 		9A152F432B3458E7004481F3 /* CronometerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F422B3458E7004481F3 /* CronometerView.swift */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9A017CC52B8F5285004443A0 /* AlarmModelCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmModelCoreData.xcdatamodel; sourceTree = "<group>"; };
+		9A017CC72B8F5330004443A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9A017CC92B8F53FD004443A0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9A152F3E2B345879004481F3 /* AnalogClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClockView.swift; sourceTree = "<group>"; };
 		9A152F402B3458B7004481F3 /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
 		9A152F422B3458E7004481F3 /* CronometerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CronometerView.swift; sourceTree = "<group>"; };
@@ -76,6 +82,9 @@
 				9A152F3E2B345879004481F3 /* AnalogClockView.swift */,
 				9A9EF1672B31B3DD007E5283 /* Assets.xcassets */,
 				9A9EF1692B31B3DD007E5283 /* Preview Content */,
+				9A017CC42B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld */,
+				9A017CC72B8F5330004443A0 /* AppDelegate.swift */,
+				9A017CC92B8F53FD004443A0 /* CoreDataStack.swift */,
 			);
 			path = ClockApp;
 			sourceTree = "<group>";
@@ -160,9 +169,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A017CC62B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld in Sources */,
 				9A152F452B345938004481F3 /* TimerView.swift in Sources */,
 				9A152F432B3458E7004481F3 /* CronometerView.swift in Sources */,
+				9A017CC82B8F5330004443A0 /* AppDelegate.swift in Sources */,
 				9A152F3F2B345879004481F3 /* AnalogClockView.swift in Sources */,
+				9A017CCA2B8F53FD004443A0 /* CoreDataStack.swift in Sources */,
 				9A9EF1662B31B3DC007E5283 /* ContentView.swift in Sources */,
 				9A152F412B3458B7004481F3 /* AlarmView.swift in Sources */,
 				9A152F472B347307004481F3 /* CronometerViewModel.swift in Sources */,
@@ -370,6 +382,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9A017CC42B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9A017CC52B8F5285004443A0 /* AlarmModelCoreData.xcdatamodel */,
+			);
+			currentVersion = 9A017CC52B8F5285004443A0 /* AlarmModelCoreData.xcdatamodel */;
+			path = AlarmModelCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 9A9EF1582B31B3DC007E5283 /* Project object */;
 }
