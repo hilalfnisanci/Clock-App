@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		9A017CC62B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9A017CC42B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld */; };
-		9A017CC82B8F5330004443A0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A017CC72B8F5330004443A0 /* AppDelegate.swift */; };
 		9A017CCA2B8F53FD004443A0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A017CC92B8F53FD004443A0 /* CoreDataStack.swift */; };
 		9A152F3F2B345879004481F3 /* AnalogClockView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F3E2B345879004481F3 /* AnalogClockView.swift */; };
 		9A152F412B3458B7004481F3 /* AlarmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A152F402B3458B7004481F3 /* AlarmView.swift */; };
@@ -25,7 +24,6 @@
 
 /* Begin PBXFileReference section */
 		9A017CC52B8F5285004443A0 /* AlarmModelCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = AlarmModelCoreData.xcdatamodel; sourceTree = "<group>"; };
-		9A017CC72B8F5330004443A0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9A017CC92B8F53FD004443A0 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		9A152F3E2B345879004481F3 /* AnalogClockView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogClockView.swift; sourceTree = "<group>"; };
 		9A152F402B3458B7004481F3 /* AlarmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlarmView.swift; sourceTree = "<group>"; };
@@ -71,6 +69,7 @@
 		9A9EF1622B31B3DC007E5283 /* ClockApp */ = {
 			isa = PBXGroup;
 			children = (
+				9A017CC42B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld */,
 				9A4DCEDB2B7FC4E80007A1DB /* wake_up.mp3 */,
 				9A4DCED92B7C11090007A1DB /* apple_alarm_clock.mp3 */,
 				9A9EF1632B31B3DC007E5283 /* ClockAppApp.swift */,
@@ -81,10 +80,8 @@
 				9A152F402B3458B7004481F3 /* AlarmView.swift */,
 				9A152F3E2B345879004481F3 /* AnalogClockView.swift */,
 				9A9EF1672B31B3DD007E5283 /* Assets.xcassets */,
-				9A9EF1692B31B3DD007E5283 /* Preview Content */,
-				9A017CC42B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld */,
-				9A017CC72B8F5330004443A0 /* AppDelegate.swift */,
 				9A017CC92B8F53FD004443A0 /* CoreDataStack.swift */,
+				9A9EF1692B31B3DD007E5283 /* Preview Content */,
 			);
 			path = ClockApp;
 			sourceTree = "<group>";
@@ -172,7 +169,6 @@
 				9A017CC62B8F5285004443A0 /* AlarmModelCoreData.xcdatamodeld in Sources */,
 				9A152F452B345938004481F3 /* TimerView.swift in Sources */,
 				9A152F432B3458E7004481F3 /* CronometerView.swift in Sources */,
-				9A017CC82B8F5330004443A0 /* AppDelegate.swift in Sources */,
 				9A152F3F2B345879004481F3 /* AnalogClockView.swift in Sources */,
 				9A017CCA2B8F53FD004443A0 /* CoreDataStack.swift in Sources */,
 				9A9EF1662B31B3DC007E5283 /* ContentView.swift in Sources */,

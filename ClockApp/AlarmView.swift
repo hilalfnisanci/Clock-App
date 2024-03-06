@@ -10,17 +10,6 @@ import SwiftUI
 import AVFoundation
 import CoreData
 
-/*
-struct Alarm: Identifiable {
-    var id = UUID()
-    var hours: Int
-    var minutes: Int
-    var time: String
-    var days: [String]
-    var isActive: Bool
-}
- */
-
 class Alarm: NSManagedObject {
     @NSManaged var id: UUID
     @NSManaged var hours: Int16
@@ -330,41 +319,6 @@ struct AddAlarmView: View {
             Alert(title: Text("Error"), message: Text("Attention! To set an alarm, you must select both the hour, minute, day/days and time zone. Additionally, if you intend to add the same alarm again, please choose a different time."), dismissButton: .default(Text("Okey")))
         }
     }
-    /*
-    func saveAlarm() {
-        let newAlarm = Alarm(hours: alarmModel.selectedHours,
-            minutes: alarmModel.selectedMinutes,
-            time: alarmModel.selectedTime,
-            days: alarmModel.selectedDays,
-            isActive: true)
-        
-        if !alarmModel.alarms.contains(where: {
-            existingAlarm in
-            return existingAlarm.hours == newAlarm.hours &&
-                existingAlarm.minutes == newAlarm.minutes &&
-                existingAlarm.time == newAlarm.time &&
-                existingAlarm.days == newAlarm.days
-        }) {
-            print("Alarm added successfully!")
-            print("New Alarm: \(newAlarm.hours):\(newAlarm.minutes) - \(newAlarm.time), Days: \(newAlarm.days)")
-
-            if alarmModel.selectedTime.isEmpty && alarmModel.selectedDays.isEmpty {
-                showAlert = true
-            } else {
-                alarmModel.alarms.append(newAlarm)
-                alarmModel.selectedHours = 4
-                alarmModel.selectedMinutes = 15
-                alarmModel.selectedTime = ""
-                alarmModel.selectedDays = []
-                goBackAction()
-            }
-            
-        } else {
-            showAlert = true
-        }
-    }
-     
-    */
     
     func saveAlarm() {
         guard !alarmModel.selectedTime.isEmpty && !alarmModel.selectedDays.isEmpty else {

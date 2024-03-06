@@ -10,7 +10,8 @@ import SwiftUI
 struct ContentView: View {
     @State private var selectedTab = 1
     @State private var screenSize: CGRect = UIScreen.main.bounds
-    
+    @FetchRequest(entity: Alarm.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Alarm.hours, ascending: true)]) var alarms: FetchedResults<Alarm>
+
     var body: some View {
 
         TabView(selection: $selectedTab) {
